@@ -30,7 +30,8 @@ CREATE TABLE course (
 CREATE TABLE task (
     id uuid DEFAULT uuid_generate_v4 (),
     creater_id uuid NOT NULL REFERENCES users(id),
-    summary varchar(128) NOT NULL,
+    topic varchar(128) NOT NULL,
+    description varchar(512) NOT NULL,
     deadline timestamp NOT NULL,
     created timestamp NOT NULL,
     course_id uuid NOT NULL REFERENCES course(id)

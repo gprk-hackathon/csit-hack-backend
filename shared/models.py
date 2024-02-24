@@ -15,3 +15,15 @@ class Role(int, Enum):
     ADMIN = 0
     TEACHER = 1
     STUDENT = 2
+
+
+def is_admin(self) -> bool:
+    return self.role_id == Role.ADMIN
+
+
+def is_teacher(self) -> bool:
+    return self.role_id == Role.TEACHER
+
+
+def is_student(self) -> bool:
+    return self.role_id == Role.STUDENT
