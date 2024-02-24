@@ -1,32 +1,33 @@
-import asyncpg
-from context import ctx
-from fastapi import APIRouter, HTTPException, Request, Response, status
-from jose import JWTError, jwt
+from typing import Annotated
+from uuid import UUID
 
-from shared.entities import Task
+import asyncpg
+from auth_utils import validate_user
+from context import ctx
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    Request,
+    Response,
+    status,
+)
+
+from shared.entities import Task, User
+from shared.models import Role
 from shared.routes import TaskRoutes
 
 task_router = APIRouter()
 
 
 @task_router.post(TaskRoutes.CREATETASK, summary="Create task")
-async def create_task(task: Task, request: Request):
-    auth_token = request.cookies.get("Access-Token")
-    payload = jwt.decode(
-        auth_token, ctx.jwt_secret_key, algorithms=[ctx.hash_algorithm]
-    )
-    user = await ctx.user_repo.get_one(field="username", value=payload["sub"])
-
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found",
-        )
-
-    if not user.role_id == 1:
+async def create_task(
+    user: Annotated[User, Depends(validate_user)], task: Task
+):
+    if not user.role_id != Role.TEACHER:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Forbidden: only teachers can create tasks",
+            detail="Only teachers can create tasks",
         )
 
     try:
@@ -37,33 +38,13 @@ async def create_task(task: Task, request: Request):
 
 
 @task_router.delete(TaskRoutes.REMOVETASK, summary="Delete task")
-async def delete_task(task_id: int, request: Request):
-    auth_token = request.cookies.get("Access-Token")
-    payload = jwt.decode(
-        auth_token, ctx.jwt_secret_key, algorithms=[ctx.hash_algorithm]
-    )
-    user = await ctx.user_repo.get_one(field="username", value=payload["sub"])
-
-    try:
-        jwt.decode(
-            auth_token, ctx.jwt_secret_key, algorithms=[ctx.hash_algorithm]
-        )
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid access token",
-        )
-
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found",
-        )
-
-    if not user.role_id == 1:
+async def delete_task(
+    user: Annotated[User, Depends(validate_user)], task_id: int
+):
+    if user.role_id != Role.TEACHER:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Forbidden: only teachers can delete tasks",
+            detail="Only teachers can delete tasks",
         )
 
     try:
@@ -78,7 +59,9 @@ async def delete_task(task_id: int, request: Request):
 
 # get task by task id
 @task_router.get(TaskRoutes.GETTASKBYID, summary="Get task by id")
-async def get_task(task_id: int, request: Request):
+async def get_task(
+    user: Annotated[User, Depends(validate_user)], task_id: UUID
+):
     try:
         task = await ctx.task_repo.get_one(field="id", value=task_id)
         return task

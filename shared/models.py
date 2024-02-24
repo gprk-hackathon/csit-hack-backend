@@ -1,5 +1,6 @@
 import json
 from enum import Enum
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -32,3 +33,8 @@ def is_student(self) -> bool:
 class CourseFrontend(BaseModel):
     name: str
     description: str
+
+
+class GroupFrontend(BaseModel):
+    name: str
+    course_id: UUID

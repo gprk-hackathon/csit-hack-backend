@@ -36,3 +36,15 @@ CREATE TABLE task (
     created timestamp NOT NULL,
     course_id uuid NOT NULL REFERENCES course(id)
 );
+
+CREATE TABLE groups (
+    id uuid NOT NULL PRIMARY KEY,
+    name varchar(128) UNIQUE NOT NULL,
+    course_id uuid NOT NULL REFERENCES course(id)
+);
+
+CREATE TABLE users_courses (
+    id uuid DEFAULT uuid_generate_v4 (),
+    user_id uuid NOT NULL REFERENCES users(id),
+    course_id uuid NOT NULL REFERENCES course(id)
+);

@@ -38,3 +38,21 @@ class User(Entity):
 
     _table_name: ClassVar[str] = "users"
     _pk: ClassVar[str] = "id"
+
+
+class Group(Entity):
+    id: UUID
+    name: str
+    course_id: UUID
+
+    _table_name: ClassVar[str] = "groups"
+    _pk: ClassVar[str] = "id"
+
+
+class UserCourse(Entity):
+    id: UUID
+    user_id: UUID
+    course_id: UUID
+
+    _table_name: ClassVar[str] = "groups"
+    _pk: ClassVar[str] = "id"
