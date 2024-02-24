@@ -7,6 +7,8 @@ from fastapi import HTTPException, Request, status
 from jose import JWTError, jwt
 from pydantic import BaseModel, ValidationError
 
+from shared.entities import User
+
 
 class TokenPayload(BaseModel):
     sub: str
@@ -55,7 +57,7 @@ def create_refresh_token(
     )
 
 
-def validate_user(request: Request):
+async def validate_user(request: Request) -> User:
     try:
         access_token = request.cookies.get("Access-Token")
         if access_token is None:
@@ -82,3 +84,14 @@ def validate_user(request: Request):
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    found_entity = await ctx.user_repo.get_one(
+        field="username", value=token_data.sub
+    )
+    if found_entity is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not find user",
+        )
+
+    return User.model_validate(found_entity)

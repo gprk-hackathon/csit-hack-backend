@@ -27,3 +27,8 @@ def is_teacher(self) -> bool:
 
 def is_student(self) -> bool:
     return self.role_id == Role.STUDENT
+
+
+class CourseFrontend(BaseModel):
+    name: str
+    description: str

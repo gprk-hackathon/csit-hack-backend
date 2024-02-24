@@ -1,7 +1,7 @@
 from databases import Database
 
 from shared.db import PgRepository, create_db_string
-from shared.entities import Task, User
+from shared.entities import User
 from shared.resources import SharedResources
 
 
@@ -10,7 +10,7 @@ class Context:
         self.shared_settings = SharedResources("config/config.json")
         self.pg = Database(create_db_string(self.shared_settings.pg_creds))
         self.user_repo = PgRepository(self.pg, User)
-        self.task_repo = PgRepository(self.pg, Task)
+
         # FIXME: take values from config
         self.access_token_expire_minutes = 2 * 60
         self.refresh_token_expire_minutes = 24 * 60
