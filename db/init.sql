@@ -22,7 +22,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE course (
-    id uuid DEFAULT uuid_generate_v4 (),
+    id uuid NOT NULL PRIMARY KEY,
     name varchar(128) UNIQUE NOT NULL,
     description varchar(512)
 );

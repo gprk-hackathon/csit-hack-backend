@@ -15,3 +15,12 @@ class User(Entity):
 
     _table_name: ClassVar[str] = "users"
     _pk: ClassVar[str] = "id"
+
+
+class Course(Entity):
+    id: UUID
+    name: str
+    description: str
+
+    _table_name: ClassVar[str] = "course"
+    _pk: ClassVar[str] = "id"

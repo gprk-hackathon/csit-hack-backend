@@ -15,3 +15,8 @@ class Role(int, Enum):
     ADMIN = 0
     TEACHER = 1
     STUDENT = 2
+
+
+class CourseFrontend(BaseModel):
+    name: str
+    description: str
