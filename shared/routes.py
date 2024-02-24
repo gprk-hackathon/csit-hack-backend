@@ -6,11 +6,11 @@ class AuthRoutes:
 
 
 class TaskRoutes:
-    CREATETASK = "/task/create"
-    UPDATETASK = "/task/update"
-    GETTASKBYID = "/task/{id}"
-    GETTASKBYCOURSEID = "/task/get_by_course_id"
-    REMOVETASK = "/task/remove"
+    CREATE_TASK = "/task/create"
+    UPDATE_TASK = "/task/update"
+    GET_TASK_BY_ID = "/task/{id}"
+    GET_TASK_BY_COURSE_ID = "/task/get_by_course_id"
+    REMOVE_TASK = "/task/remove"
 
 
 class CourseRoutes:
@@ -18,3 +18,8 @@ class CourseRoutes:
     GET_COURSES = "/course"
     GET_COURSE_BY_ID = "/course/{id}"
     ENROLL = "/course/{course_id}/enroll"
+
+
+class RepositoryRoutes:
+    CREATE_REPOSITORY = "/repository"
+    GET_REPOSITORY = "/repository/{id}"

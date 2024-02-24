@@ -48,3 +48,20 @@ CREATE TABLE users_courses (
     user_id uuid NOT NULL REFERENCES users(id),
     course_id uuid NOT NULL REFERENCES course(id)
 );
+
+CREATE TABLE repository (
+    id uuid NOT NULL PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES users(id),
+    course_id uuid NOT NULL REFERENCES course(id),
+    url varchar(512) NOT NULL
+)
+
+CREATE TABLE submission (
+    id uuid NOT NULL PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES users(id),
+    task_id uuid NOT NULL REFERENCES task(id),
+    group_id uuid NOT NULL REFERENCES groups(id),
+    uploaded timestamp NOT NULL,
+    status_id int,
+    score int,
+)

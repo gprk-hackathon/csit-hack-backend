@@ -20,7 +20,7 @@ from shared.routes import TaskRoutes
 task_router = APIRouter()
 
 
-@task_router.post(TaskRoutes.CREATETASK, summary="Create task")
+@task_router.post(TaskRoutes.CREATE_TASK, summary="Create task")
 async def create_task(
     user: Annotated[User, Depends(validate_user)], task: Task
 ):
@@ -37,7 +37,7 @@ async def create_task(
     return task
 
 
-@task_router.delete(TaskRoutes.REMOVETASK, summary="Delete task")
+@task_router.delete(TaskRoutes.REMOVE_TASK, summary="Delete task")
 async def delete_task(
     user: Annotated[User, Depends(validate_user)], task_id: int
 ):
@@ -58,7 +58,7 @@ async def delete_task(
 
 
 # get task by task id
-@task_router.get(TaskRoutes.GETTASKBYID, summary="Get task by id")
+@task_router.get(TaskRoutes.GET_TASK_BY_ID, summary="Get task by id")
 async def get_task(
     user: Annotated[User, Depends(validate_user)], task_id: UUID
 ):
@@ -70,7 +70,9 @@ async def get_task(
 
 
 # get task by course id
-@task_router.get(TaskRoutes.GETTASKBYCOURSEID, summary="Get task by course id")
+@task_router.get(
+    TaskRoutes.GET_TASK_BY_COURSE_ID, summary="Get task by course id"
+)
 async def get_task_by_course(course_id: int, request: Request):
     try:
         task = await ctx.task_repo.get_one(field="course_id", value=course_id)
@@ -79,9 +81,7 @@ async def get_task_by_course(course_id: int, request: Request):
         raise HTTPException(status_code=404, detail="Tasks not found")
 
 
-task_router.get(TaskRoutes.GETTASKBYCOURSEID, summary="Change task")
-
-
+@task_router.get(TaskRoutes.GET_TASK_BY_COURSE_ID, summary="Change task")
 async def change_description_task(task_id: int, desc: str, request: Request):
     try:
         task = await ctx.task_repo.update(

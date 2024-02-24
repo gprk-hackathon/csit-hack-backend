@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from handlers.auth import auth_router
 from handlers.course import course_router
 from handlers.task import task_router
+from handlers.webhook import webhook_router
 
 from shared.logger import configure_logging
 
@@ -33,6 +34,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(task_router)
 app.include_router(course_router)
+app.include_router(webhook_router)
 
 
 @app.get("/", summary="Hello, world")
