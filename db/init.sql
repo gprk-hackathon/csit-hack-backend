@@ -20,3 +20,18 @@ CREATE TABLE users (
     role role_id NOT NULL REFERENCES roles(role_id),
     PRIMARY KEY (id)
 );
+
+CREATE TABLE course (
+    id uuid DEFAULT uuid_generate_v4 (),
+    name varchar(128) UNIQUE NOT NULL,
+    description varchar(512)
+);
+
+CREATE TABLE task (
+    id uuid DEFAULT uuid_generate_v4 (),
+    creater_id uuid NOT NULL REFERENCES users(id),
+    summary varchar(128) NOT NULL,
+    deadline timestamp NOT NULL,
+    created timestamp NOT NULL,
+    course_id uuid NOT NULL REFERENCES course(id)
+);
