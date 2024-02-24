@@ -1,6 +1,8 @@
 import logging
 from contextlib import asynccontextmanager
+from uuid import uuid4
 
+from auth_utils import hash_password
 from context import ctx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +10,7 @@ from handlers.auth import auth_router
 from handlers.course import course_router
 from handlers.task import task_router
 
+from shared.entities import User
 from shared.logger import configure_logging
 
 
@@ -15,6 +18,30 @@ from shared.logger import configure_logging
 async def lifespan(_: FastAPI):
     configure_logging()
     await ctx.init_db()
+    await ctx.user_repo.add(
+        User(
+            id=uuid4(),
+            username="b",
+            password=hash_password(b"abc"),
+            surname="b",
+            name="c",
+            patronymic="d",
+            role_id=1,
+        ),
+        ignore_conflict=True,
+    )
+    await ctx.user_repo.add(
+        User(
+            id=uuid4(),
+            username="a",
+            password=hash_password(b"abc"),
+            surname="b",
+            name="c",
+            patronymic="d",
+            role_id=2,
+        ),
+        ignore_conflict=True,
+    )
     yield
     await ctx.dispose_db()
 
@@ -24,7 +51,7 @@ logger = logging.getLogger("app")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

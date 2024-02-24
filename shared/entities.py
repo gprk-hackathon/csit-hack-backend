@@ -54,5 +54,5 @@ class UserCourse(Entity):
     user_id: UUID
     course_id: UUID
 
-    _table_name: ClassVar[str] = "groups"
+    _table_name: ClassVar[str] = "users_courses"
     _pk: ClassVar[str] = "id"

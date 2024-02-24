@@ -129,6 +129,6 @@ async def logout(response: Response):
 # FIXME: delete
 @auth_router.get("/all")
 async def get_all(request: Request):
-    validate_user(request)
+    await validate_user(request)
 
     return await ctx.user_repo.get_many()

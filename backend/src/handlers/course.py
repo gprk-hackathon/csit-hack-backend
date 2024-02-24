@@ -63,7 +63,7 @@ async def add_student_to_course(
     "/course", summary="Get all courses", status_code=status.HTTP_200_OK
 )
 async def get_courses():
-    await ctx.course_repo.get_many()
+    return await ctx.course_repo.get_many()
 
 
 @course_router.get(
