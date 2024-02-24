@@ -1,5 +1,3 @@
-from os import getenv
-
 from databases import Database
 
 from shared.db import PgRepository, create_db_string
@@ -13,6 +11,7 @@ class Context:
         self.pg = Database(create_db_string(self.shared_settings.pg_creds))
         self.user_repo = PgRepository(self.pg, User)
 
+        # FIXME: take values from config
         self.access_token_expire_minutes = 2 * 60
         self.refresh_token_expire_minutes = 24 * 60
         self.jwt_secret_key = "abcdef"
