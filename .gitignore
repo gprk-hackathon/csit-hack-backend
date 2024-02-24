@@ -1,0 +1,17 @@
+.*
+!.github
+!.pre-commit-config.yaml
+!.python-version
+!.gitignore
+
+requirements*.lock
+
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+config/config.json
+db/data
