@@ -79,7 +79,7 @@ async def get_task_by_course(course_id: int, request: Request):
         raise HTTPException(status_code=404, detail="Tasks not found")
 
 
-task_router.get(TaskRoutes.GETTASKBYCOURSEID, summary="Change task")
+# task_router.get(TaskRoutes.GETTASKBYCOURSEID, summary="Change task")
 
 
 async def change_description_task(task_id: int, desc: str, request: Request):
