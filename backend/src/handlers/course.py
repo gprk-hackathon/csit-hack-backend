@@ -50,6 +50,7 @@ async def add_student_to_course(
     course_id: UUID,
     repository_url: str,
 ) -> UUID:
+    logger.info("Adding student to course: %s", course_id)
     if user.role_id != Role.STUDENT:
         raise HTTPException(
             status_code=403, detail="Only students can enroll to course"
@@ -64,6 +65,7 @@ async def add_student_to_course(
             url_repo=repository_url,
         )
     )
+    return user_course_id
 
 
 @course_router.get(
