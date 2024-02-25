@@ -73,7 +73,7 @@ async def get_task(
 @task_router.get(TaskRoutes.GETTASKBYCOURSEID, summary="Get task by course id")
 async def get_task_by_course(course_id: int, request: Request):
     try:
-        task = await ctx.task_repo.get_one(field="course_id", value=course_id)
+        task = await ctx.task_repo.get_many(field="course_id", value=course_id)
         return task
     except asyncpg.exceptions.FileNotFoundError:
         raise HTTPException(status_code=404, detail="Tasks not found")
