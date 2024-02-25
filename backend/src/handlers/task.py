@@ -29,7 +29,7 @@ async def create_task(
     #     )
 
     try:
-        await ctx.task_repo.create(task)
+        await ctx.task_repo.add(task)
     except asyncpg.exceptions.UniqueViolationError:
         raise HTTPException(status_code=400, detail="Task already exists")
     return task
