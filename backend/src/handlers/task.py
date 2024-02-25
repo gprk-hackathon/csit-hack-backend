@@ -60,11 +60,9 @@ async def delete_task(
 
 # get task by task id
 @task_router.get(TaskRoutes.GET_TASK_BY_ID, summary="Get task by id")
-async def get_task(
-    user: Annotated[User, Depends(validate_user)], task_id: UUID
-):
+async def get_task(id: UUID):
     try:
-        task = await ctx.task_repo.get_one(field="id", value=task_id)
+        task = await ctx.task_repo.get_one(field="id", value=id)
         return task
     except asyncpg.exceptions.FileNotFoundError:
         raise HTTPException(status_code=404, detail="Task not found")
