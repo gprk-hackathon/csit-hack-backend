@@ -46,7 +46,9 @@ async def create_course(
     status_code=status.HTTP_200_OK,
 )
 async def add_student_to_course(
-    user: Annotated[User, Depends(validate_user)], course_id: UUID
+    user: Annotated[User, Depends(validate_user)],
+    course_id: UUID,
+    repository_url: str,
 ) -> UUID:
     if user.role_id != Role.STUDENT:
         raise HTTPException(
@@ -55,7 +57,12 @@ async def add_student_to_course(
 
     user_course_id = uuid4()
     await ctx.user_course_repo.add(
-        UserCourse(id=user_course_id, user_id=user.id, course_id=course_id)
+        UserCourse(
+            id=user_course_id,
+            user_id=user.id,
+            course_id=course_id,
+            url=repository_url,
+        )
     )
 
 

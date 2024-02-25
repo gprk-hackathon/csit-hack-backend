@@ -46,15 +46,16 @@ CREATE TABLE groups (
 CREATE TABLE users_courses (
     id uuid DEFAULT uuid_generate_v4 (),
     user_id uuid NOT NULL REFERENCES users(id),
-    course_id uuid NOT NULL REFERENCES course(id)
+    course_id uuid NOT NULL REFERENCES course(id),
+    url varchar(512) UNIQUE NOT NULL
 );
 
-CREATE TABLE repository (
-    id uuid NOT NULL PRIMARY KEY,
-    user_id uuid NOT NULL REFERENCES users(id),
-    course_id uuid NOT NULL REFERENCES course(id),
-    url varchar(512) NOT NULL
-)
+-- CREATE TABLE repository (
+--     id uuid NOT NULL PRIMARY KEY,
+--     user_id uuid NOT NULL REFERENCES users(id),
+--     course_id uuid NOT NULL REFERENCES course(id),
+--     url varchar(512) NOT NULL
+-- )
 
 CREATE TABLE submission (
     id uuid NOT NULL PRIMARY KEY,

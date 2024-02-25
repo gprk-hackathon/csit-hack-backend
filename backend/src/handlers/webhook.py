@@ -17,7 +17,7 @@ async def webhook_handler(data: dict):
             print("Received git push webhook:", data)
             repository_url = data.get("repository", {}).get("html_url", "")
 
-            repo = await ctx.repository_repo.get_one(
+            repo = await ctx.user_course_repo.get_one(
                 field="url", value=repository_url
             )
             if not repo:
@@ -25,7 +25,9 @@ async def webhook_handler(data: dict):
                     status_code=404, detail="repository not found"
                 )
 
-            await ctx.repository_repo.add(repo)
+            logger.info("Received git push webhook: %s", repository_url)
+
+            # await ctx.repository_repo.add(repo)
             # че дальше то????
             return {"status": "Git push webhook received successfully"}
         else:

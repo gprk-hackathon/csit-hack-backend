@@ -53,6 +53,7 @@ class UserCourse(Entity):
     id: UUID
     user_id: UUID
     course_id: UUID
+    url: str
 
     _table_name: ClassVar[str] = "users_courses"
     _pk: ClassVar[str] = "id"
@@ -62,6 +63,7 @@ class Repository(Entity):
     id: UUID
     user_id: UUID
     course_id: UUID
+    url: str
 
     _table_name: ClassVar[str] = "repository"
     _pk: ClassVar[str] = "id"
