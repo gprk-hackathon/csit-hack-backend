@@ -1,18 +1,19 @@
 import logging
 
 from context import ctx
-from fastapi import (
-    APIRouter,
-    HTTPException,
-)
+from fastapi import APIRouter, HTTPException, Request
 
 webhook_router = APIRouter()
 logger = logging.getLogger("app")
 
 
 @webhook_router.post("/webhook")
-async def webhook_handler(data: dict):
+async def webhook_handler(request: Request):
     try:
+        data = await request.json()
+
+        logger.info("Received git webhook: aboba")
+
         if "push" in data.get("event", ""):
             print("Received git push webhook:", data)
             repository_url = data.get("repository", {}).get("html_url", "")
