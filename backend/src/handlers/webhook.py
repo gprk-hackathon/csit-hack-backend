@@ -12,10 +12,11 @@ async def webhook_handler(request: Request):
     try:
         data = await request.json()
 
-        added_files = data.get("head_commit", {}).get("added", [])
-        removed_files = data.get("head_commit", {}).get("removed", [])
-        modified_files = data.get("head_commit", {}).get("modified", [])
-        repository_url = data.get("repository", {}).get("html_url", "")
+        added_files = data["head_commit"]["added"]
+        removed_files = data["head_commit"]["removed"]
+        modified_files = data["head_commit"]["modified"]
+
+        repository_url = data["repository"]["html_url"]
 
         logger.info("Received git push webhook: %s", added_files)
         logger.info("Received git push webhook: %s", removed_files)
