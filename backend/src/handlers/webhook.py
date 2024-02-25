@@ -1,6 +1,5 @@
 import logging
 
-from context import ctx
 from fastapi import APIRouter, HTTPException, Request
 
 webhook_router = APIRouter()
@@ -12,26 +11,20 @@ async def webhook_handler(request: Request):
     try:
         data = await request.json()
 
-        logger.info("Received git webhook: aboba")
+        added_files = data.get("head_commit", {}).get("added", [])
+        removed_files = data.get("head_commit", {}).get("removed", [])
+        modified_files = data.get("head_commit", {}).get("modified", [])
+        repository_url = data.get("repository", {}).get("html_url", "")
 
-        if "push" in data.get("event", ""):
-            print("Received git push webhook:", data)
-            repository_url = data.get("repository", {}).get("html_url", "")
+        # user = await ctx.course_repo.get_one(field="id", value=)
+        # if user is None:
+        #     raise HTTPException(status_code=404, detail="Course not found")
 
-            repo = await ctx.user_course_repo.get_one(
-                field="url", value=repository_url
-            )
-            if not repo:
-                raise HTTPException(
-                    status_code=404, detail="repository not found"
-                )
+        logger.info("Received git push webhook:", added_files)
+        logger.info("Received git push webhook:", removed_files)
+        logger.info("Received git push webhook:", modified_files)
+        logger.info("Received git push webhook:", repository_url)
 
-            logger.info("Received git push webhook: %s", repository_url)
-
-            # await ctx.repository_repo.add(repo)
-            # че дальше то????
-            return {"status": "Git push webhook received successfully"}
-        else:
-            raise HTTPException(status_code=400, detail="Unsupported event")
+        return {"status": "Git push webhook received successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

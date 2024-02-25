@@ -50,12 +50,22 @@ CREATE TABLE users_courses (
     url_repo varchar(128) UNIQUE NOT NULL
 );
 
+CREATE TABLE changed_files (
+    id uuid NOT NULL PRIMARY KEY,
+    submission_id uuid NOT NULL REFERENCES submission(id),
+    file_path varchar(512) NOT NULL,
+    change_type varchar(20) NOT NULL, 
+    content text, 
+    uploaded timestamp NOT NULL,
+    FOREIGN KEY (submission_id) REFERENCES submission(id)
+);
+
 CREATE TABLE submission (
     id uuid NOT NULL PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES users(id),
-    task_id uuid  UNIQUE NOT NULL REFERENCES task(id),
-    group_id uuid NOT NULL REFERENCES groups(id),
+    task_id uuid NOT NULL REFERENCES task(id),
     uploaded timestamp NOT NULL,
     status_id int,
+    count int, 
     score int
 );
