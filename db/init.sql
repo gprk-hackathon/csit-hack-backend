@@ -64,7 +64,6 @@ CREATE TABLE submission (
     uploaded timestamp NOT NULL,
     before_commit varchar(256) NOT NULL,
     after_commit varchar(256) NOT NULL,
-    uploaded_at timestamp NOT NULL,
     status_id int,
     count int, 
     score int
