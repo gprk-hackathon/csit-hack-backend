@@ -15,6 +15,9 @@ class Context:
         self.task_repo = PgRepository(self.pg, Task)
         self.user_course_repo = PgRepository(self.pg, UserCourse)
         self.repository_repo = PgRepository(self.pg, Repository)
+        self.submission_repo = PgRepository(self.pg, Repository)
+        self.changed_files_repo = PgRepository(self.pg, Repository)
+
         # FIXME: take values from config
         self.access_token_expire_minutes = 2 * 60
         self.refresh_token_expire_minutes = 24 * 60

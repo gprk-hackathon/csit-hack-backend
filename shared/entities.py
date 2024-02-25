@@ -67,3 +67,28 @@ class Repository(Entity):
 
     _table_name: ClassVar[str] = "repository"
     _pk: ClassVar[str] = "id"
+
+
+class Changed_Files(Entity):
+    id: UUID
+    submission_id: UUID
+    submission_id: str
+    change_type: str
+    content: str
+    uploaded: datetime
+
+    _table_name: ClassVar[str] = "changed_files"
+    _pk: ClassVar[str] = "id"
+
+
+class Submission(Entity):
+    id: UUID
+    user_id: UUID
+    task_id: UUID
+    uploaded: datetime
+    status_id: int
+    count: int
+    score: int
+
+    _table_name: ClassVar[str] = "submission"
+    _pk: ClassVar[str] = "id"

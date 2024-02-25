@@ -53,11 +53,8 @@ CREATE TABLE users_courses (
 CREATE TABLE changed_files (
     id uuid NOT NULL PRIMARY KEY,
     submission_id uuid NOT NULL REFERENCES submission(id),
-    file_path varchar(512) NOT NULL,
     change_type varchar(20) NOT NULL, 
-    content text, 
-    uploaded timestamp NOT NULL,
-    FOREIGN KEY (submission_id) REFERENCES submission(id)
+    content text 
 );
 
 CREATE TABLE submission (
