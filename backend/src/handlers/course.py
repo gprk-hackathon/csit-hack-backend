@@ -61,7 +61,7 @@ async def add_student_to_course(
             id=user_course_id,
             user_id=user.id,
             course_id=course_id,
-            url=repository_url,
+            url_repo=repository_url,
         )
     )
 

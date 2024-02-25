@@ -11,7 +11,7 @@ CREATE TABLE roles (
 INSERT INTO roles VALUES (0, 'admin'), (1, 'teacher'), (2, 'student');
 
 CREATE TABLE users (
-    id uuid DEFAULT uuid_generate_v4 (),
+    id uuid DEFAULT uuid_generate_v4(),
     username varchar(128) UNIQUE NOT NULL,
     password bytea NOT NULL,
     surname varchar(128) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE course (
 );
 
 CREATE TABLE task (
-    id uuid DEFAULT uuid_generate_v4 (),
+    id uuid DEFAULT uuid_generate_v4(),
     creater_id uuid NOT NULL REFERENCES users(id),
     topic varchar(128) NOT NULL,
     description varchar(512) NOT NULL,
@@ -44,25 +44,18 @@ CREATE TABLE groups (
 );
 
 CREATE TABLE users_courses (
-    id uuid DEFAULT uuid_generate_v4 (),
+    id uuid DEFAULT uuid_generate_v4(),
     user_id uuid NOT NULL REFERENCES users(id),
     course_id uuid NOT NULL REFERENCES course(id),
-    url varchar(512) UNIQUE NOT NULL
+    url_repo varchar(128) UNIQUE NOT NULL
 );
-
--- CREATE TABLE repository (
---     id uuid NOT NULL PRIMARY KEY,
---     user_id uuid NOT NULL REFERENCES users(id),
---     course_id uuid NOT NULL REFERENCES course(id),
---     url varchar(512) NOT NULL
--- )
 
 CREATE TABLE submission (
     id uuid NOT NULL PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES users(id),
-    task_id uuid NOT NULL REFERENCES task(id),
+    task_id uuid  UNIQUE NOT NULL REFERENCES task(id),
     group_id uuid NOT NULL REFERENCES groups(id),
     uploaded timestamp NOT NULL,
     status_id int,
-    score int,
-)
+    score int
+);
