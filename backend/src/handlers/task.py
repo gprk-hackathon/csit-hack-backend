@@ -1,3 +1,4 @@
+import datetime
 from typing import Annotated
 from uuid import UUID
 
@@ -10,11 +11,9 @@ from fastapi import (
     HTTPException,
     Request,
     Response,
-    status,
 )
 
 from shared.entities import Task, User
-from shared.models import Role
 from shared.routes import TaskRoutes
 
 task_router = APIRouter()
@@ -24,14 +23,16 @@ task_router = APIRouter()
 async def create_task(
     user: Annotated[User, Depends(validate_user)], task: Task
 ):
-    if not user.role_id != Role.TEACHER:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only teachers can create tasks",
-        )
+    # if not user.role_id != Role.TEACHER:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_403_FORBIDDEN,
+    #         detail="Only teachers can create tasks",
+    #     )
 
     try:
-        await ctx.task_repo.create(task)
+        task.created = datetime.datetime.now()
+        task.deadline = datetime.datetime.now()
+        await ctx.task_repo.add(task)
     except asyncpg.exceptions.UniqueViolationError:
         raise HTTPException(status_code=400, detail="Task already exists")
     return task
@@ -41,11 +42,11 @@ async def create_task(
 async def delete_task(
     user: Annotated[User, Depends(validate_user)], task_id: int
 ):
-    if user.role_id != Role.TEACHER:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only teachers can delete tasks",
-        )
+    # if user.role_id != Role.TEACHER:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_403_FORBIDDEN,
+    #         detail="Only teachers can delete tasks",
+    #     )
 
     try:
         await ctx.task_repo.delete(field="id", value=task_id)

@@ -18,7 +18,7 @@ class Task(Entity):
     id: UUID
     creater_id: UUID
     topic: str
-    summary: str
+    description: str
     deadline: datetime
     created: datetime
     course_id: UUID
