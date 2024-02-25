@@ -9,7 +9,7 @@ class TaskRoutes:
     CREATE_TASK = "/task/create"
     UPDATE_TASK = "/task/update"
     GET_TASK_BY_ID = "/task/{id}"
-    GET_TASK_BY_COURSE_ID = "/task/get_by_course_id"
+    GET_TASK_BY_COURSE_ID = "/task/get_by_course_id/{course_id}"
     REMOVE_TASK = "/task/remove"
 
 
