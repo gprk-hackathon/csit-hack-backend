@@ -60,8 +60,10 @@ CREATE TABLE changed_files (
 CREATE TABLE submission (
     id uuid NOT NULL PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES users(id),
-    task_id uuid NOT NULL REFERENCES task(id),
     uploaded timestamp NOT NULL,
+    before_commit varchar(256) NOT NULL,
+    after_commit varchar(256) NOT NULL,
+    uploaded_at timestamp NOT NULL,
     status_id int,
     count int, 
     score int
