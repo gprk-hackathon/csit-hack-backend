@@ -60,6 +60,7 @@ CREATE TABLE changed_files (
 CREATE TABLE submission (
     id uuid NOT NULL PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES users(id),
+    course_id uuid NOT NULL REFERENCES course(id),
     uploaded timestamp NOT NULL,
     before_commit varchar(256) NOT NULL,
     after_commit varchar(256) NOT NULL,
