@@ -1,3 +1,4 @@
+import datetime
 from typing import Annotated
 from uuid import UUID
 
@@ -29,6 +30,8 @@ async def create_task(
     #     )
 
     try:
+        task.created = datetime.datetime.now()
+        task.deadline = datetime.datetime.now()
         await ctx.task_repo.add(task)
     except asyncpg.exceptions.UniqueViolationError:
         raise HTTPException(status_code=400, detail="Task already exists")
